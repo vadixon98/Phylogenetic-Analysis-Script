@@ -1,0 +1,2 @@
+file_name	organism	url	database	path	refseq_category	assembly_accession	bioproject	biosample	taxid	infraspecific_name	version_status	release_type	genome_rep	seq_rel_date	submitter
+data/Solanum_lycopersicum_genomic_refseq.fna.gz	Solanum lycopersicum	https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/036/512/215/GCF_036512215.1_SLM_r2.1/GCF_036512215.1_SLM_r2.1_genomic.fna.gz	refseq	data	reference genome	GCF_036512215.1	PRJNA1160886	SAMD00644211	4081	na	latest	Major	Full	2024-09-03	Kazusa DNA Research Institute

@@ -14,7 +14,11 @@
 
 # Output files from R CMD build
 /*.tar.gz
-
+*refseq.gff
+*.fasta
+*refseq.faa
+*refseq.fna
+*refseq.fna.gz
 # Output files from R CMD check
 /*.Rcheck/
 
