@@ -1,118 +1,242 @@
-# AOS Phylogeny & Functional Analysis Pipeline
+<div align="center">
 
-**Script:** `Final_Complete_Annotated.R`
-**Author:** Victoria A. Dixon
-**Date:** 2025-05-02
+# 🧬 AOS Phylogeny & Functional Analysis Pipeline
 
-## Description
+**Automated phylogenetic analysis and functional annotation of Allene Oxide Synthase genes**
 
-This R pipeline automates retrieval and analysis of Allene Oxide Synthase (AOS; CYP74A) genes in *Solanum lycopersicum* (tomato). It performs:
+[![R](https://img.shields.io/badge/R-%3E%3D4.0-276DC3?style=for-the-badge&logo=r&logoColor=white)](https://www.r-project.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Bioconductor](https://img.shields.io/badge/Bioconductor-3.18-blue?style=for-the-badge&logo=bioconductor)](https://bioconductor.org/)
 
-1. **Sequence Retrieval**: Downloads coding and protein sequences, filters for AOS.
-2. **Promoter Extraction**: Fetches \~2 kb upstream sequences for AOS genes.
-3. **Multiple Sequence Alignment & Motif Scanning**: Aligns protein sequences and scans for motifs (e.g., heme-binding, jasmonate elements).
-4. **Phylogenetic Reconstruction**: Builds neighbor‑joining and maximum‑likelihood trees with bootstrap support, and saves publication‑quality figures.
-
-All intermediate and final outputs are organized under `data/` and `results/` directories.
+**Script:** `Final_Complete_Annotated.R` | **Author:** Victoria A. Dixon | **Date:** 2025-05-02
 
 ---
 
-## Requirements
+</div>
 
-* **R** ≥ 4.0
-* Internet connection for sequence and annotation downloads
-* External tools installed if using MEME/FIMO (optional for motif scanning)
+## 📋 Overview
 
-No non‑standard R packages are required; dependencies are installed automatically via CRAN and Bioconductor.
+This comprehensive R pipeline automates the retrieval and analysis of **Allene Oxide Synthase (AOS; CYP74A)** genes in *Solanum lycopersicum* (tomato). The pipeline integrates sequence retrieval, promoter analysis, motif scanning, and phylogenetic reconstruction into a single automated workflow.
 
----
+### ✨ Key Features
 
-## Installation & Setup
-
-1. Clone or download the repository:
-
-   ```bash
-   git clone <repository-url>
-   cd <repository-directory>
-   ```
-2. Open R or RStudio in this directory.
-3. Run the pipeline script:
-
-   ```r
-   source("Final_Complete_Annotated.R")
-   ```
-
-   This will:
-
-   * Create `data/` and `results/` if missing
-   * Install and load required CRAN/Bioconductor packages
-   * Execute all pipeline steps in sequence
+- 🔍 **Automated Sequence Retrieval** - Downloads CDS and protein sequences from public databases
+- 🧪 **Promoter Analysis** - Extracts and analyzes ~2kb upstream regulatory regions
+- 🎯 **Motif Scanning** - Identifies functional domains and cis-regulatory elements
+- 🌳 **Phylogenetic Trees** - Builds ML and NJ trees with bootstrap support
+- 📊 **Publication-Ready Outputs** - Generates high-quality figures and alignments
 
 ---
 
-## Pipeline Steps
+## 🚀 Quick Start
 
-### 1. Directory Setup
+```bash
+# Clone the repository
+git clone <repository-url>
+cd Phylogenetic-Analysis-Script
 
-* Creates `data/` and `results/` for organized output storage.
+# Run the pipeline
+Rscript Final_Complete_Annotated.R
+```
 
-### 2. Package Management
+Or in R/RStudio:
 
-* Installs missing CRAN packages (`biomartr`, `ape`, `phangorn`, `tidyverse`, `seqinr`).
-* Installs missing Bioconductor packages (`rentrez`, `msa`, `Biostrings`, `ggtree`, `biomaRt`, `rtracklayer`, `IRanges`).
-* Loads all dependencies.
+```r
+source("Final_Complete_Annotated.R")
+```
 
-### 3. Sequence Retrieval
-
-* Downloads CDS and proteome for tomato using **biomartr** and **rentrez**.
-* Filters for AOS/CYP74A sequences by header patterns.
-* Saves FASTA files: `data/Sl_AOS_CDS.fasta` and `data/Sl_AOS_protein.fasta`.
-
-### 4. Promoter Extraction
-
-* Imports GFF3 annotation and genome FASTA.
-* Identifies AOS gene features.
-* Extracts \~2 kb upstream promoter regions (reverse-complemented for negative strand).
-* Saves to `data/AOS_promoters_2kb.fasta`.
-
-### 5. Alignment & Motif Scanning
-
-* Aligns AOS protein sequences with **msa::msa** (ClustalW).
-* Exports alignment: `results/AOS_protein_aln.fasta`.
-* Scans for heme-binding motif (`F.GGPRC`) and prints hit positions.
-* Runs external FIMO motif scan on promoters (requires MEME suite) and outputs to `results/fimo_JA_elements/`.
-
-### 6. Phylogenetic Reconstruction
-
-* Converts MSA to **phangorn** phyDat object.
-* Computes distance matrix and neighbor-joining tree.
-* Performs maximum-likelihood optimization (JTT+Γ+I).
-* Bootstraps ML tree (1000 replicates) and annotates node support.
-* Saves trees as PNG:
-
-  * `results/AOS_NJ_tree.png`
-  * `results/AOS_ML_tree.png`
-
-### 7. Pipeline Completion
-
-* Final message indicating successful run and location of outputs.
+> 💡 **Note:** The script automatically installs all required packages and creates necessary directories.
 
 ---
 
-## Usage Tips
+## 📦 Requirements
 
-* **Re-running**: To update with new data, delete contents of `data/` and `results/` before rerunning.
-* **Parameter Tweaks**: Modify gap penalties, bootstrap replicates, or motif files by editing the script variables.
-* **Headless Runs**: Use `Rscript Final_Complete_Annotated.R` for non-interactive execution.
+| Component | Version | Notes |
+|-----------|---------|-------|
+| **R** | ≥ 4.0 | Core programming environment |
+| **Internet** | - | Required for sequence downloads |
+| **FIMO** | Optional | For advanced motif scanning (MEME suite) |
+
+### 📚 Package Dependencies
+
+The pipeline automatically installs and manages all dependencies:
+
+**CRAN Packages:**
+- `biomartr` - Genome data retrieval
+- `ape` & `phangorn` - Phylogenetic analysis
+- `tidyverse` - Data manipulation
+- `seqinr` - Sequence utilities
+
+**Bioconductor Packages:**
+- `rentrez` - NCBI database access
+- `msa` - Multiple sequence alignment
+- `Biostrings` - Sequence handling
+- `ggtree` - Tree visualization
+- `biomaRt`, `rtracklayer`, `IRanges` - Genome annotation
 
 ---
 
-## Contributing
+## 🔬 Pipeline Workflow
 
-Enhancements, bug reports, and pull requests are welcome. Please fork the repository and submit changes via GitHub.
+```mermaid
+graph TD
+    A[Start] --> B[Setup Directories]
+    B --> C[Install Packages]
+    C --> D[Download Sequences]
+    D --> E[Extract Promoters]
+    E --> F[Align Sequences]
+    F --> G[Scan Motifs]
+    G --> H[Build Phylogeny]
+    H --> I[Generate Trees]
+    I --> J[Complete]
+```
+
+### 📝 Detailed Steps
+
+#### 1️⃣ **Directory Setup**
+Creates organized output structure:
+- `data/` - Raw sequences, genomes, intermediate files
+- `results/` - Alignments, trees, analysis outputs
+
+#### 2️⃣ **Package Management**
+- Automatically checks for and installs missing packages
+- Handles both CRAN and Bioconductor dependencies
+- Loads all required libraries
+
+#### 3️⃣ **Sequence Retrieval** 🧬
+- Downloads complete CDS and proteome for *S. lycopersicum*
+- Filters sequences using pattern matching (`CYP74A|allene oxide synthase|AOS`)
+- Saves filtered sequences:
+  - `data/Sl_AOS_CDS.fasta`
+  - `data/Sl_AOS_protein.fasta`
+
+#### 4️⃣ **Promoter Extraction** 🧪
+- Imports GFF3 annotation and genome FASTA
+- Identifies AOS gene coordinates
+- Extracts ~2kb upstream regions
+- Handles strand orientation (reverse-complements negative strand)
+- Output: `data/AOS_promoters_2kb.fasta`
+
+#### 5️⃣ **Alignment & Motif Scanning** 🎯
+- **Protein Alignment**: ClustalW multiple sequence alignment
+  - Output: `results/AOS_protein_aln.fasta`
+- **Heme-Binding Motif**: Scans for `F.GGPRC` pattern
+- **Promoter Motifs**: FIMO scan for jasmonate-responsive elements
+  - Output: `results/fimo_JA_elements/`
+
+#### 6️⃣ **Phylogenetic Reconstruction** 🌳
+- **Distance Calculation**: ML-based pairwise distances
+- **Neighbor-Joining Tree**: Fast initial topology
+- **Maximum Likelihood Optimization**:
+  - Model: JTT (Jones-Taylor-Thornton)
+  - Rate variation: Gamma distribution
+  - Invariable sites: Estimated
+- **Bootstrap Analysis**: 1000 replicates for node support
+- **Visualization**: Publication-quality tree figures
+  - `results/AOS_NJ_tree.png`
+  - `results/AOS_ML_tree.png`
 
 ---
 
-## License
+## 📂 Output Structure
 
-This project is licensed under the **MIT License**. Include a copy of the license when distributing.
+```
+Phylogenetic-Analysis-Script/
+│
+├── data/
+│   ├── Sl_AOS_CDS.fasta              # Filtered coding sequences
+│   ├── Sl_AOS_protein.fasta          # Filtered protein sequences
+│   ├── AOS_promoters_2kb.fasta       # Promoter sequences
+│   └── [genome and annotation files]
+│
+└── results/
+    ├── AOS_protein_aln.fasta         # Multiple sequence alignment
+    ├── AOS_NJ_tree.png               # Neighbor-Joining tree
+    ├── AOS_ML_tree.png               # ML tree with bootstrap support
+    └── fimo_JA_elements/             # Motif scan results
+```
+
+---
+
+## 💡 Usage Tips
+
+### 🔄 Re-running the Pipeline
+To update with new data:
+```bash
+# Remove old outputs
+rm -rf data/* results/*
+# Re-run pipeline
+Rscript Final_Complete_Annotated.R
+```
+
+### ⚙️ Customization
+Edit script variables to modify:
+- **Bootstrap replicates**: Change `bs = 1000` in `bootstrap.pml()`
+- **Promoter length**: Modify `2000` in promoter extraction section
+- **Substitution model**: Change `model = 'JTT'` to other models (WAG, LG, etc.)
+- **Motif patterns**: Update `pattern_heme` or FIMO motif database
+
+### 🖥️ Headless Execution
+For non-interactive runs:
+```bash
+Rscript Final_Complete_Annotated.R > pipeline.log 2>&1
+```
+
+### 🐛 Troubleshooting
+- **No sequences found**: Check pattern matching in sequence headers
+- **FIMO errors**: Ensure MEME suite is installed and in PATH
+- **Package installation fails**: Check internet connection and R version
+
+---
+
+## 🎨 Example Outputs
+
+### Phylogenetic Tree
+The pipeline generates publication-ready phylogenetic trees with:
+- Bootstrap support values on nodes
+- Clear tip labels
+- Professional formatting
+
+### Alignment
+Multiple sequence alignment highlights:
+- Conserved regions across AOS sequences
+- Functional domains (e.g., heme-binding sites)
+- Sequence variation patterns
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to:
+
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 Commit your changes (`git commit -m 'Add amazing feature'`)
+4. 📤 Push to the branch (`git push origin feature/amazing-feature`)
+5. 🔀 Open a Pull Request
+
+For bug reports or feature requests, please open an issue on GitHub.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the LICENSE file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **biomartr** and **Bioconductor** for sequence data access
+- **phangorn** and **ape** for phylogenetic methods
+- **ggtree** for beautiful tree visualizations
+
+---
+
+<div align="center">
+
+**Made with ❤️ for phylogenetic analysis**
+
+⭐ Star this repo if you find it useful!
+
+</div>
